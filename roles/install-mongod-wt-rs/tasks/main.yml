@@ -4,30 +4,20 @@
   register: mongo_bin
 
 - name: MongoDB | Fetch 10Gen signing key
-  command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+  command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
   when: mongo_bin.stat.exists == False
 
 - name: MongoDB | Add 10Gen repository
   shell:
-    echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
-    creates=/etc/apt/sources.list.d/mongodb-org-3.2.list
+    echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+    creates=/etc/apt/sources.list.d/mongodb-org-4.0.list
   when: mongo_bin.stat.exists == False
-
-- name: MongoDB | Copy MMAPV1 CONF
-  template: src=mongod.mmapv1.j2 dest=/etc/mongod.conf mode=0644
-  when: storage == 'mmapv1'
-
-- name: MongoDB | Copy MMAPV1 Maintenance CONF
-  template: src=mongod.conf.maintenance.mmapv1.j2 dest=/etc/mongod.conf.maintenance mode=0644
-  when: storage == 'mmapv1'
 
 - name: MongoDB | Copy WIREDTIGER CONF
   template: src=mongod.wiredtiger.j2 dest=/etc/mongod.conf mode=0644
-  when: storage == 'wiredtiger'
 
 - name: MongoDB | Copy WIREDTIGER Maintenance CONF
   template: src=mongod.conf.maintenance.wiredtiger.j2 dest=/etc/mongod.conf.maintenance mode=0644
-  when: storage == 'wiredtiger'
 
 - name: install mongodb
   apt: name={{ item }} state=latest update_cache=yes

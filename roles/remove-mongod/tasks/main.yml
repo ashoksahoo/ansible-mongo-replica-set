@@ -33,5 +33,5 @@
     - /usr/bin/mongodump
     - /usr/bin/mongo
     - /usr/bin/mongod
-    - /etc/apt/sources.list.d/mongodb-org-3.2.list
+    - /etc/apt/sources.list.d/mongodb-org-*
   ignore_errors: true
