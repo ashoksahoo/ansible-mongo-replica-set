@@ -1,7 +1,8 @@
 Deployment of a mongodb replicaset with authN / authZ
 -----------------------------------------------------
 
-This playbook setup a MongoDB replicaset with
+This playbook setup a MongoDB 4.0 replicaset on ubuntu 18.04 with
+* wiredtiger engine
 * user authentication / authorization
 * secure communication between the nodes (using key file).
 
@@ -35,7 +36,7 @@ Nodes initialisation
 
 ```ansible-playbook -i inventory/ENVIRONMENT.ini -k -s init.yml```
 
-```ansible-playbook -i inventory/ENVIRONMENT.ini main.yml --extra-vars '{"replSet":"replicasetname", "storage":"wiredtiger/mmapv1"}'```
+```ansible-playbook -i inventory/ENVIRONMENT.ini main.yml --extra-vars '{"replSet":"replicasetname"'```
 
 If you want to cleanup everything
 
